@@ -79,8 +79,10 @@ struct DetailView: View {
     func deleteBook() {
         moc.delete(book)
 
-        // uncomment this line if you want to make the deletion permanent
-        // try? self.moc.save()
+        if self.moc.hasChanges {
+            try? self.moc.save()
+        }
+        
         presentationMode.wrappedValue.dismiss()
     }
 }
