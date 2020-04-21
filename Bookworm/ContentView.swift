@@ -33,6 +33,7 @@ struct ContentView: View {
 
                         VStack(alignment: .leading) {
                             Text(book.title ?? "Unknown Title")
+                                .foregroundColor(book.rating == 1 ? Color.red : .primary)
                                 .font(.headline)
                             Text(book.author ?? "Unknown Author")
                                 .foregroundColor(.secondary)
@@ -45,7 +46,8 @@ struct ContentView: View {
             .navigationBarItems(leading: EditButton(), trailing: Button(action: {
                 self.showingAddScreen.toggle()
             }) {
-                Image(systemName: "plus")
+//                Image(systemName: "plus")
+                Text("New book")
             })
             .sheet(isPresented: $showingAddScreen) {
                 AddBookView().environment(\.managedObjectContext, self.moc)

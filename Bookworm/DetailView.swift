@@ -16,20 +16,33 @@ struct DetailView: View {
     
     let book: Book
     
+    var genreName: String {
+        guard let genre = book.genre else { return "Unknown" }
+        guard !genre.isEmpty else { return "Unknown" }
+
+        return genre
+    }
+    
+    var formattedDate: String {
+        guard let date = book.date else { return "" }
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        return "Reviewed on \(formatter.string(from: date))"
+    }
+    
     var body: some View {
         GeometryReader { geometry in
             VStack {
                 ZStack(alignment: .bottomTrailing) {
-                    Image(self.book.genre ?? "Fantasy")
+                    Image(self.genreName)
                         .frame(maxWidth: geometry.size.width)
 
-                    Text(self.book.genre?.uppercased() ?? "FANTASY")
+                    Text(self.genreName.uppercased())
                         .font(.caption)
                         .fontWeight(.black)
                         .padding(8)
                         .foregroundColor(.white)
                         .background(Color.black.opacity(0.5))
-//                        .clipShape(Capsule())
                         .offset(x: -5, y: -5)
                 }
                 
@@ -44,6 +57,9 @@ struct DetailView: View {
                     .font(.largeTitle)
 
                 Spacer()
+                
+                Text(self.formattedDate)
+                    .padding()
             }
         }
         .navigationBarTitle(Text(book.title ?? "Unknown Book"), displayMode: .inline)
